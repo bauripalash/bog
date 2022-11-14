@@ -12,7 +12,7 @@ const handle = (req : NextRequest) => {
     const title = searchParams.get('title') || "Adventure of Palash Bauri"
     const blog = searchParams.get('blog') || "Adventure of Palash Bauri"
     const date = new Date(searchParams.get('date') || "2022-11-13T12:00:00.000Z")
-    const username = "bauripalash"
+    const username =  searchParams.get('gh') || "bauripalash"
     
     return new ImageResponse(
         (
