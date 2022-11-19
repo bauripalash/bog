@@ -14,7 +14,7 @@ function valid_token(token : string){
 
 async function fetchSiteData(u : string){
   
-  const url = `http://127.0.0.1:3000/api/getsite/?url=${encodeURI(btoa(u))}`
+  const url = `/api/getsite/?url=${encodeURI(btoa(u))}`
   
   
 
