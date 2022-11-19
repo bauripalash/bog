@@ -2,6 +2,7 @@
 //import Image from 'next/image'
 
 
+
 import React from "react";
 
 function valid_token(token : string){
@@ -9,6 +10,20 @@ function valid_token(token : string){
     return true
   }
   return false
+}
+
+async function fetchSiteData(u : string){
+  
+  const url = `http://127.0.0.1:3000/api/getsite/?url=${encodeURI(btoa(u))}`
+  
+  
+
+  //console.log(url)
+
+  const resp = await fetch(url)
+  const data = await resp.json()
+  return data
+  
 }
 
 function create_link(title : string , date : string , blog : string , gh : string , token : string){
@@ -30,10 +45,22 @@ function Page() {
   const [gh , setGh] = React.useState("bauripalash")
   const [token , setToken] = React.useState("??")
   const [ output , setOutput]  = React.useState("https://")
+  const [siteurl , setSiteurl] = React.useState("http://")
   
 
   function genLink() {
     setOutput(create_link(title , date , blog , gh , token))
+  }
+
+  function getData(){
+    
+    fetchSiteData(siteurl).then(d => {
+      if (d != null){
+        setTitle(d.title)
+        setDate(d.published)
+        setBlog(d.blog)
+      }
+    })
   }
 
   return(
@@ -44,6 +71,12 @@ function Page() {
       
     }}>
         <div className="row">
+        <div className="col-25">URL:</div>
+        <input type="text" name="url" id="urlinput" value={siteurl} onChange = { (e) => {
+          setSiteurl(e.target.value)
+        } } />
+        <button onClick={getData}>Get Data</button>
+        <hr/>
         <div className="col-25">
         <label htmlFor="title">Post Title : </label>
         </div>

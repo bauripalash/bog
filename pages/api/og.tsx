@@ -2,9 +2,12 @@ import { NextRequest , NextResponse } from 'next/server'
 import { ImageResponse } from '@vercel/og'
 
 
+
 export const config = {
     runtime : 'experimental-edge'
 }
+
+
 
 const handle = (req : NextRequest) => {
     const { searchParams } = new URL(req.url)
