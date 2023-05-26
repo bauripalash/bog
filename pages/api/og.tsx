@@ -8,8 +8,12 @@ export const config = {
 }
 
 
+const image = fetch(new URL('./logo.png' , import.meta.url)).then((res) => 
+  res.arrayBuffer(),
+);
 
-const handle = (req : NextRequest) => {
+export default async function handle(req : NextRequest){
+    const imgData = await image;
     const { searchParams } = new URL(req.url)
     
     const title = searchParams.get('title') || "Adventure of Palash Bauri"
@@ -40,7 +44,7 @@ const handle = (req : NextRequest) => {
             <img
               width="80"
               height="80"
-              src={`https://github.com/${username}.png`}
+              src={imgData}
               style={{
                 borderRadius: 128,
                 flexGrow:0,
@@ -53,10 +57,10 @@ const handle = (req : NextRequest) => {
             }} >{blog}</p>
             </div>
             <p style={{
-                fontSize : 80,
-                marginRight: 10,
-                color : '#16213E',
-                wordWrap : 'break-word',
+                fontSize : 65,
+                textAlign: "center",
+                color : 'black',
+                wordWrap : 'normal',
                 flexWrap : 'wrap'
             }} >{title}</p>
             <small style={{
@@ -72,4 +76,3 @@ const handle = (req : NextRequest) => {
       );
 }
 
-export default handle

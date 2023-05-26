@@ -6,20 +6,22 @@
 import React from "react";
 
 function valid_token(token : string){
+  if (!process.env.TOKEN){
+    return true
+  }
   if (process.env.TOKEN == token){
     return true
   }
   return false
 }
 
+function is_debug() : boolean{
+  return process.env.NODE_ENV == "development" || process.env.NODE_ENV == "test";
+}
+
+
 async function fetchSiteData(u : string){
-  
   const url = `/api/getsite/?url=${encodeURI(btoa(u))}`
-  
-  
-
-  //console.log(url)
-
   const resp = await fetch(url)
   const data = await resp.json()
   return data
@@ -34,7 +36,11 @@ function create_link(title : string , date : string , blog : string , gh : strin
   const eDate = encodeURI(date)
   const eBlog = encodeURI(blog)
   const eGh = encodeURI(gh)
-  return `https://b.og.palashbauri.in/api/og/?title=${eTitle}&blog=${eBlog}&date=${eDate}&gh=${eGh}`
+  if (is_debug()){
+    return `/api/og/?title=${eTitle}&blog=${eBlog}&date=${eDate}&gh=${eGh}`
+  }else{
+    return `https://b.og.palashbauri.in/api/og/?title=${eTitle}&blog=${eBlog}&date=${eDate}&gh=${eGh}`
+  }
 }
 
 function Page() {
